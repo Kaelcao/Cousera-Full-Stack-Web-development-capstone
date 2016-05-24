@@ -42,4 +42,5 @@ process.on('SIGTERM', function () {
 });
 
 require('./articles');
+require('./categories');
 require('./users');

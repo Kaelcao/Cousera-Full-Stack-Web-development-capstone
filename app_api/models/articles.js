@@ -9,7 +9,7 @@ var commentSchema = new mongoose.Schema({
         required: true
     },
     user_id: {
-        type: ObjectId,
+        type: mongoose.Schema.ObjectId,
         required: true
     }
 }, {timestamps: true});
@@ -19,28 +19,23 @@ var articleSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    tag: {
+    tags: {
         type: [String],
-        index: trues
+        index: true
     },
     content: {
         type: String,
         required: true
     },
-    rating: {
-        type: Number,
-        default: 0,
-        min: 0,
-        max: 5
-    },
     user_id: {
-        type: ObjectId,
+        type: mongoose.Schema.ObjectId,
         required: true
     },
     category_id: {
-        type: ObjectId,
+        type: mongoose.Schema.ObjectId,
         required: true
     },
-    tags: [String],
     comments: [commentSchema]
 }, {timestamps: true});
+
+mongoose.model('Article', articleSchema);

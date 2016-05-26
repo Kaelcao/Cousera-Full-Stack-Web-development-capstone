@@ -3,6 +3,7 @@
  */
 var mongoose = require('mongoose');
 var Article = mongoose.model('Article');
+var helper = require('../helpers/helpers');
 
 var sendJsonResponse = function (res, status, content) {
     res.status(status);
@@ -10,37 +11,39 @@ var sendJsonResponse = function (res, status, content) {
 };
 
 module.exports.commentsCreate = function (req, res) {
-    var articleid = req.params.articleid;
-    if (!articleid) {
-        sendJsonResponse(res, 404, {messsage: "articleid is required "});
-        return;
-    }
-    Article
-        .findById(articleid)
-        .select('comments')
-        .exec(function (err, article) {
-            if (err) {
-                sendJsonResponse(res, 400, err);
-                return;
-            }
-            if (!article) {
-                sendJsonResponse(res, 404, {message: 'Articleid not found'});
-                return;
-            }
-            article.comments.push({
-                content: req.body.content,
-                user_id: req.body.user_id
-            });
-            article.save(function (err, article) {
+    helper.getUser(req, res, function (req, res, user_id) {
+        var articleid = req.params.articleid;
+        if (!articleid) {
+            sendJsonResponse(res, 404, {messsage: "articleid is required "});
+            return;
+        }
+        Article
+            .findById(articleid)
+            .select('comments')
+            .exec(function (err, article) {
                 if (err) {
                     sendJsonResponse(res, 400, err);
                     return;
                 }
-                var comments = article.comments;
-                sendJsonResponse(res, 201, comments[comments.length - 1]);
-            });
+                if (!article) {
+                    sendJsonResponse(res, 404, {message: 'Articleid not found'});
+                    return;
+                }
+                article.comments.push({
+                    content: req.body.content,
+                    user_id: user_id
+                });
+                article.save(function (err, article) {
+                    if (err) {
+                        sendJsonResponse(res, 400, err);
+                        return;
+                    }
+                    var comments = article.comments;
+                    sendJsonResponse(res, 201, comments[comments.length - 1]);
+                });
 
-        });
+            });
+    });
 };
 
 module.exports.commentsDeleteOne = function (req, res) {

@@ -3,6 +3,8 @@
  */
 var mongoose = require('mongoose');
 var Article = mongoose.model('Article');
+var helper = require('../helpers/helpers');
+
 
 var sendJSONresponse = function (res, status, content) {
     res.status(status);
@@ -28,22 +30,25 @@ module.exports.articlesAlls = function (req, res) {
         });
 };
 module.exports.articlesCreate = function (req, res) {
-    Article
-        .create(
-            {
-                title: req.body.title,
-                content: req.body.content,
-                user_id: req.body.user_id,
-                tags: req.body.tags.split(','),
-                category_id: req.body.category_id
-            },
-            function (err, article) {
-                if (err) {
-                    sendJSONresponse(res, 400, err);
-                    return;
-                }
-                sendJSONresponse(res, 201, article)
-            });
+    helper.getUser(req, res, function (req, res, user_id) {
+        Article
+            .create(
+                {
+                    title: req.body.title,
+                    content: req.body.content,
+                    user_id: user_id,
+                    tags: req.body.tags.split(','),
+                    category_id: req.body.category_id
+                },
+                function (err, article) {
+                    if (err) {
+                        sendJSONresponse(res, 400, err);
+                        return;
+                    }
+                    sendJSONresponse(res, 201, article)
+                });
+    });
+
 };
 module.exports.articlesReadOne = function (req, res) {
     if (req.params && req.params.articleid) {

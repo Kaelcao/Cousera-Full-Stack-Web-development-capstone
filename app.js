@@ -6,11 +6,11 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var passport = require('passport');
 
-if (process.env.NODE_ENV != "production") {
+// if (process.env.NODE_ENV != "production") {
     require('dotenv').load();
-}
-require('./app_api/models/db')
-require('./app_api/config/passport')
+// }
+require('./app_api/models/db');
+require('./app_api/config/passport');
 
 var routes = require('./app_server/routes/index');
 var users = require('./app_api/routes/users');

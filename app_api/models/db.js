@@ -1,7 +1,7 @@
 var mongoose = require('mongoose');
 var dbUri = "mongodb://localhost/ybox";
 if (process.env.NODE_ENV === 'production') {
-    dbURI = process.env.MONGOLAB_URI;
+    dbUri = process.env.MONGOLAB_URI;
 }
 mongoose.connect(dbUri);
 

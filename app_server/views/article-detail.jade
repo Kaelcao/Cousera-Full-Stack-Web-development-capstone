@@ -1,0 +1,24 @@
+extends layout
+
+block content
+    .row
+        .col-xs-12.col-sm-8
+            h3(style='margin-top:0')= article.title
+            p.time
+                a.label.label-info(href="/article",role="button")= article.category
+                span= article.created_at
+            p !{article.content}
+            p
+                each tag in article.tags
+                    span.label.label-default.tag= tag
+        .col-xs-12.col-sm-4
+            .row.list-group
+                each article in relatedArticles
+                    .col-xs-12.list-group-item
+                        h4
+                            a(href='/article')= article.title
+                        p.time
+                            a.label.label-info(href="/article",role="button")= article.category
+                            span= article.created_at
+                        p.description= article.content.substring(0, 300) + "..."
+                        a.btn.btn-default(href="/article",role="button") Read more

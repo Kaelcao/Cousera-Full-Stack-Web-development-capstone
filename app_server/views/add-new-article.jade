@@ -1,0 +1,32 @@
+extends layout
+
+block content
+    .row
+        .col-xs-12.col-md-6
+            form.form-horizontal
+                .form-group
+                    label.col-xs-12.col-sm-2(for='title') Title
+                    .col-xs-12.col-sm-10
+                        input.form-control#title(type="text",placeholder="Title",name='title')
+                .form-group
+                    label.col-xs-12.col-sm-2(for='content') Content
+                    .col-xs-12.col-sm-10
+                        textarea.form-control#content(name='content',rows='5')
+                .form-group
+                    label.col-xs-12.col-sm-2(for='category_id') Category
+                    .col-xs-12.col-sm-10
+                        select#category_id.form-control.input-sm(name="category_id")
+                            option category 5
+                            option category 4
+                            option category 3
+                            option category 2
+                            option category 1
+
+                .form-group
+                    label.col-xs-12.col-sm-2(for='tags') Tags
+                    .col-xs-12.col-sm-10
+                        input.form-control#tags(type="text",placeholder="Tags",name='tags')
+                .form-group
+                    .col-xs-12.col-sm-10.col-sm-push-2
+                        input.btn.btn-default(type='submit')
+                        input.btn.btn-danger(type='reset',style='margin-left:5px')

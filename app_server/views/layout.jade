@@ -6,6 +6,41 @@ html
         link(rel="stylesheet", href='/bootstrap/css/bootstrap.min.css')
         link(rel='stylesheet', href='/stylesheets/style.css')
     body
-        block content
+        .navbar.navbar-default.navbar-fixed-top
+            .container
+                .navbar-header
+                    a.navbar-brand(href='/') Ybox
+                    button.navbar-toggle(type='button', data-toggle='collapse', data-
+                    target='#navbar-main')
+                        span.icon-bar
+                    span.icon-bar
+                    span.icon-bar
+                #navbar-main.navbar-collapse.collapse
+                    ul.nav.navbar-nav
+                        li
+                            a(href='/category/') Category
+                    ul.nav.navbar-nav.navbar-right
+                        li.dropdown
+                            a.dropdown-toggle(href="#",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") Username
+                                span.caret
+                            ul.dropdown-menu
+                                li
+                                    a(href='/user/') Profile
+                                li
+                                    a(href='/newarticle/') New Article
+                                li
+                                    a Logout
+
+        .container
+            #banner.page-header
+                .row
+                    .col-lg-8
+                        h1 Loc8r
+                            small &nbsp; News for the Youth
+            block content
+            footer.row
+                .col-xs-12
+                    small &copy; Cao Anh Quan 2016
+
         script(src='/javascripts/jquery-1.12.4.min.js')
         script(src='/bootstrap/js/bootstrap.min.js')

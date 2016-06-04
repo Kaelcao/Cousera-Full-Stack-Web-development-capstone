@@ -1,5 +1,22 @@
 extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+    .row
+        .col-xs-12.col-sm-8
+            .row.list-group
+                each article in articles
+                    .col-xs-12.list-group-item
+                        h4
+                            a(href='/article')= article.title
+                        p.time
+                            a.label.label-info(href="/article",role="button")= article.category
+                            span= article.created_at
+                        p.description= article.content.substring(0, 300) + "..."
+                        p
+                            each tag in article.tags
+                                span.label.label-default.tag= tag
+                            a.btn.btn-success.pull-right(href="/article",role="button") Read more
+
+
+        .col-xs-12.col-sm-4
+            p.lead Feature and Advertising posts goes here

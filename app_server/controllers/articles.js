@@ -1,6 +1,13 @@
-/**
- * Created by caoanhquan on 5/28/16.
- */
+require('request');
+var apiOptions = {
+    server: "http://localhost:3000"
+};
+if (process.env.NODE_ENV == 'production'){
+    apiOptions = {
+        server:;
+    }
+}
+
 module.exports.index = function (req, res) {
     res.render('index',
         {

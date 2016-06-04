@@ -17,8 +17,9 @@ html
                     span.icon-bar
                 #navbar-main.navbar-collapse.collapse
                     ul.nav.navbar-nav
-                        li
-                            a(href='/category/') Category
+                        each category in categories
+                            li
+                                a(href='/category/#{category._id}/articles')= category.name
                     ul.nav.navbar-nav.navbar-right
                         li.dropdown
                             a.dropdown-toggle(href="#",data-toggle="dropdown",role="button",aria-haspopup="true",aria-expanded="false") Username

@@ -1,133 +1,135 @@
-require('request');
+var request = require('request');
+var categories;
 var apiOptions = {
     server: "http://localhost:3000"
 };
 if (process.env.NODE_ENV == 'production'){
-    apiOptions = {
-        server:;
-    }
+    apiOptions.server = "https://damp-forest-42813.herokuapp.com";
+}
+var requestOptions,urlPath;
+urlPath = "/api/categories";
+requestOptions = {
+    url: apiOptions.server + urlPath,
+    method: "GET",
+    json: {},
+    qs: {}
+};
+request(requestOptions,function(err,response,body){
+    categories = body;
+});
+var displayError = function(err){
+    res.render(error,{
+        error: err,
+        message: "There is error happen"
+    });
 }
 
+var renderHomepage = function (req,res,responseBody) {
+    var data = {
+        categories:categories,
+        title: 'Home',
+        articles: responseBody
+    };
+    if (responseBody.length == 0){
+        data.message = "No article available";
+    }
+    res.render('index',data);
+};
+
+var renderDetailPage = function (req,res, data){
+    res.render('article-detail',
+    {
+        categories:categories,
+        title: data.article.title,
+        article: data.article,
+        relatedArticles: data.articles
+    }
+    );
+};
+
 module.exports.index = function (req, res) {
-    res.render('index',
-        {
-            title: 'Home',
-            articles: [
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                },
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                },
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                },
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                }
-            ]
-        });
+    var requestOptions, urlPath;
+    urlPath =  '/api/articles';
+    requestOptions = {
+        url: apiOptions.server + urlPath,
+        method: "GET",
+        json: {},
+        qs: {}
+    };
+    request(requestOptions,function(err,response,body){
+        if (err) {
+            console.log(err);
+            displayError(err);
+        } else {
+            renderHomepage(req,res,body);               
+        }
+    });
 };
 module.exports.newArticle = function (req, res) {
     res.render('add-new-article', {title: 'new article'});
 };
 
 module.exports.article = function (req, res) {
-    res.render('article-detail',
-        {
-            title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-            article: {
-                title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                tags: ["Food", "Premium wifi", "Hot drinks"],
-                category: "Events",
-                created_at: '12/2/2016 5:00'
-            },
-            relatedArticles: [
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                },
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                },
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
-                },
-                {
-                    title: "Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla.",
-                    content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Mauris in ligula eget urna finibus molestie. Donec malesuada libero nec commodo pulvinar. Praesent hendrerit, odio sed viverra malesuada, purus erat tincidunt felis, a fermentum mauris lacus vitae nulla. Nulla nec ante quis ante accumsan pretium. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Duis sagittis maximus tincidunt. Mauris quis massa ac sem gravida bibendum. Duis lacinia leo ut mi elementum, non consequat enim hendrerit. Morbi eu elit vel massa mollis semper facilisis ac velit. Phasellus vel auctor magna. Praesent ac bibendum sem. Aliquam id tempus lacus. Nulla et feugiat libero. Morbi egestas blandit erat ut pretium. Aenean mauris nisi, varius et dui sit amet, condimentum condimentum mi. Nam commodo luctus massa non faucibus. Maecenas vitae tortor sed mauris tempus volutpat vel a elit. Morbi porta eget leo sed gravida. In a scelerisque mauris, et varius dolor. Praesent imperdiet vulputate velit eu bibendum. Sed cursus tellus nulla, id sollicitudin nibh finibus sollicitudin. Vestibulum vitae pretium ex. Vestibulum non leo dolor. Quisque tempor interdum ligula sed malesuada. Phasellus vel urna eget purus euismod venenatis. Quisque nec venenatis ligula, eu gravida sapien. Sed sagittis quam rhoncus vestibulum lacinia. Proin eu bibendum dolor. Vivamus dictum neque in nibh scelerisque facilisis. Duis ligula elit, tempor sed velit et, molestie mollis sapien. Duis molestie diam vitae velit tincidunt, eu egestas augue vestibulum. Quisque maximus volutpat consequat. Sed rhoncus odio in nisi dictum elementum ac ac dolor. Nunc sagittis ipsum massa, vitae scelerisque ante luctus in. Nulla in ante luctus, scelerisque nibh ut, laoreet ipsum. Vivamus at augue massa. Integer sed massa velit. Donec vulputate tempus nisi ac elementum. Sed tristique varius ante semper aliquam. Ut cursus magna id ullamcorper rutrum. Aenean est lorem, congue vitae imperdiet sed, elementum sed arcu. Curabitur nec mi vel ante rutrum suscipit. Donec in metus dolor. Phasellus hendrerit odio lectus, sagittis tristique sem auctor ut. Suspendisse viverra, felis in varius imperdiet, nisi nibh lobortis nibh, quis fringilla magna ex vitae tellus. " +
-                    "Quisque vel euismod enim, tempor placerat purus. Mauris nec ipsum metus. " +
-                    "Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. " +
-                    "Curabitur sed urna turpis. Donec imperdiet est eget lorem hendrerit tempor. Ut iaculis est in volutpat scelerisque. " +
-                    "Duis ut venenatis odio, egestas imperdiet nulla. Quisque molestie risus nec mi feugiat pharetra.",
-                    tags: ["Food", "Premium wifi", "Hot drinks"],
-                    category: "Events",
-                    created_at: '12/2/2016 5:00'
+    var requestOptions, urlPathArticle, urlPathArticles,article,articles;
+    //Get one article
+    urlPathArticle = "/api/articles/" + req.params.articleid;
+    requestArticleOptions = {
+        url: apiOptions.server + urlPathArticle,
+        method: "GET",
+        json: {},
+        qs:{}
+    };
+
+    //Get recommended articles
+    urlPathArticles = "/api/articles";
+    requestArticlesOptions = {
+        url: apiOptions.server + urlPathArticles,
+        method: "GET",
+        json: {},
+        qs: {}
+    };
+    request(requestArticleOptions, function(err, response, body){
+        if (err){
+            console.log(err);
+            displayError(err);
+        }else{
+            article = body;
+            request(requestArticlesOptions, function(err, response, body){
+                if (err){
+                    console.log(err);
+                } else {
+                    articles = body;
+                    renderDetailPage(req,res,{
+                        article: article,
+                        articles: articles
+                    });
                 }
-            ]
+            });
         }
-    );
+    });
+    
+
 };
+
+module.exports.getArticlesByCategory = function (req,res){
+    var requestOptions, urlPath;
+    urlPath = "/api/categories/"+req.params.categoryid+"/articles";
+    requestOptions = {
+        url: apiOptions.server + urlPath,
+        method: 'GET',
+        json: {},
+        qs: {}
+    };
+    request(requestOptions,function(err,response,body){
+        if (err){
+            console.log(err);
+            displayError(err);
+        } else {
+            renderHomepage(req,res,body);
+        }
+    });
+}
+
 module.exports.category = function (req, res) {
     res.render('index', {title: 'Category'});
 };

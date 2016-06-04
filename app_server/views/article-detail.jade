@@ -5,8 +5,7 @@ block content
         .col-xs-12.col-sm-8
             h3(style='margin-top:0')= article.title
             p.time
-                a.label.label-info(href="/article",role="button")= article.category
-                span= article.created_at
+                span= article.createdAt.replace(/T/, ' ').replace(/\..+/, '')
             p !{article.content}
             p
                 each tag in article.tags
@@ -16,9 +15,9 @@ block content
                 each article in relatedArticles
                     .col-xs-12.list-group-item
                         h4
-                            a(href='/article')= article.title
+                            a(href='/article/#{article._id}')= article.title
                         p.time
                             a.label.label-info(href="/article",role="button")= article.category
-                            span= article.created_at
+                            span= article.createdAt.replace(/T/, ' ').replace(/\..+/, '')
                         p.description= article.content.substring(0, 300) + "..."
-                        a.btn.btn-default(href="/article",role="button") Read more
+                        a.btn.btn-default(href="/article/#{article._id}",role="button") Read more

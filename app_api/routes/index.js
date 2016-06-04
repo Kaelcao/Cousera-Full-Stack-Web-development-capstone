@@ -28,6 +28,7 @@ routes.get('/articles/:articleid/comments/:commentid', ctrlComments.commentsRead
 routes.get('/categories', ctrlCategories.categoriesAlls);
 routes.post('/categories',auth , ctrlCategories.categoriesCreate);
 routes.get('/categories/:categoryid', ctrlCategories.categoriesReadOne);
+routes.get('/categories/:categoryid/articles', ctrlCategories.categoriesReadAllArticles);
 routes.put('/categories/:categoryid',auth , ctrlCategories.categoriesUpdateOne);
 routes.delete('/categories/:categoryid',auth , ctrlCategories.categoriesDeleteOne);
 

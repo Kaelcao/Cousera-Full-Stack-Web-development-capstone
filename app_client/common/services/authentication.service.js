@@ -5,29 +5,30 @@
 
 	authentication.$inject = ['$window',"$http"];
 	function authentication ($window,$http) {
-		var saveToken = function (token) {
+		var s=this;
+		s.saveToken = function (token) {
 			$window.localStorage['ybox-token'] = token;
 		};
-		this.saveToken = saveToken;
-		var getToken = function () {
+		
+		s.getToken = function () {
 			return $window.localStorage['ybox-token'];
 		};
-		this.getToken = getToken;
-		this.register = function(user) {
+	
+		s.register = function(user) {
 			return $http.post('/api/register', user).success(function(data){
-				saveToken(data.token);
+				s.saveToken(data.token);
 			});
 		};
-		this.login = function(user) {
+		s.login = function(user) {
 			return $http.post('/api/login', user).success(function(data) {
-				saveToken(data.token);
+				s.saveToken(data.token);
 			});
 		};
-		this.logout = function() {
+		s.logout = function() {
 			$window.localStorage.removeItem('ybox-token');
 		};
-		var isLoggedIn = function(){
-			var token = getToken();
+		s.isLoggedIn = function(){
+			var token = s.getToken();
 			if (token){
 				var payload = JSON.parse($window.atob(token.split('.')[1]));
 				return payload.exp > Date.now() / 1000;
@@ -35,10 +36,10 @@
 				return false;
 			}
 		};
-		this.isLoggedIn = isLoggedIn;
-		this.currentUser = function() {
-			if(isLoggedIn()){
-				var token = this.getToken();
+
+		s.currentUser = function() {
+			if(s.isLoggedIn()){
+				var token = s.getToken();
 				var payload = JSON.parse($window.atob(token.split('.')[1]));
 				return {
 					email : payload.email,

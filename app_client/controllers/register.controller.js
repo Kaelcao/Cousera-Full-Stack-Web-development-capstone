@@ -28,7 +28,7 @@
       authentication
       .register(vm.credentials)
       .error(function(err){
-        vm.formError = err;
+        vm.formError = err.message;
       })
       .then(function(){
         $location.search('page', null);

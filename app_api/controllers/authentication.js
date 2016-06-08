@@ -1,10 +1,10 @@
 /**
  * Created by caoanhquan on 5/21/16.
  */
-var passport = require('passport');
-var mongoose = require('mongoose');
-var User = mongoose.model('User');
-var sendJSONresponse = function (res, status, content) {
+ var passport = require('passport');
+ var mongoose = require('mongoose');
+ var User = mongoose.model('User');
+ var sendJSONresponse = function (res, status, content) {
     res.status(status);
     res.json(content);
 };
@@ -17,20 +17,32 @@ module.exports.register = function (req, res) {
     var user = new User();
     user.name = req.body.name;
     user.email = req.body.email;
-    user.setPassword(req.body.password);
-
-    user.save(function (err) {
-        var token;
-        if (err) {
-            sendJSONresponse(req, 500, err);
-        } else {
-            token = user.generateJwt();
-            sendJSONresponse(res, 200, {
-                token: token
-            });
+    User.find({email:user.email},function(err,users){
+        if (err){
+            sendJSONresponse(res,500,err);
+            return;
         }
+        if (users.length > 0){
+            sendJSONresponse(res,400,{message: "email is already existed"});
+            return;
+        }
+        user.setPassword(req.body.password);
 
+        user.save(function (err) {
+            var token;
+            if (err) {
+                sendJSONresponse(req, 500, err);
+            } else {
+                token = user.generateJwt();
+                sendJSONresponse(res, 200, {
+                    token: token
+                });
+            }
+
+        });
+        
     });
+
 };
 
 module.exports.login = function (req, res) {

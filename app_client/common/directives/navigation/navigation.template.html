@@ -16,11 +16,11 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a ng-show="navvm.isLoggedIn" href="/newarticle/">New Article</a>
+					<a ng-show="isLoggedIn" href="/newarticle/">New Article</a>
 				</li>
-				<li ng-hide="navvm.isLoggedIn" ><a href="/login?page={{navvm.currentPath }}">Sign in</a></li>
-				<li ng-show="navvm.isLoggedIn" class="dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">{{navvm.currentUser.name}}
+				<li ng-hide="isLoggedIn" ><a href="/login?page={{currentPath }}">Sign in</a></li>
+				<li ng-show="isLoggedIn" class="dropdown">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">{{currentUser.name}}
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">

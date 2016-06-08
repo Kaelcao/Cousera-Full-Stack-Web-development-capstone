@@ -3,8 +3,8 @@
 	.module('yboxApp') 
 	.controller('loginCtrl', loginCtrl);
 
-	loginCtrl.$inject = ['$location','authentication'];
-	function loginCtrl($location, authentication) {
+	loginCtrl.$inject = ['$location','authentication',"$rootScope"];
+	function loginCtrl($location, authentication,$rootScope) {
 		var vm = this;
 		vm.credentials = { email : "", password : ""};
 		vm.returnPage = $location.search().page || '/';
@@ -14,6 +14,7 @@
 				vm.formError = "All fields required, please try again";
 				return false;
 			} else {
+
 				vm.doLogin(); 
 			};
 			
@@ -23,11 +24,14 @@
 			authentication
 			.login(vm.credentials) 
 			.error(function(err){ 
-				vm.formError = err;
+				vm.formError = err.message;
 			})
 			.then(function(){
+				$rootScope.isLoggedIn = authentication.isLoggedIn();
 				$location.search('page', null);
+				 $rootScope.currentUser = authentication.currentUser();
 				$location.path(vm.returnPage);
+
 			});
 		}; 
 	}

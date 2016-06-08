@@ -4,9 +4,9 @@
   .module('yboxApp')
   .controller('registerCtrl', registerCtrl);
 
-  registerCtrl.$inject = ['$location','authentication'];
+  registerCtrl.$inject = ['$location','authentication',"$rootScope"];
 
-  function registerCtrl($location, authentication) {
+  function registerCtrl($location, authentication,$rootScope) {
     var vm = this;
     vm.credentials = {
       name : "",
@@ -33,6 +33,8 @@
       .then(function(){
         $location.search('page', null);
         $location.path(vm.returnPage);
+         $rootScope.isLoggedIn = authentication.isLoggedIn();
+        $rootScope.currentUser = authentication.currentUser();
       });
     };
   }

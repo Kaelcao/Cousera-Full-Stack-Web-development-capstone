@@ -13,13 +13,17 @@ var sendJSONresponse = function (res, status, content) {
 
 module.exports.articlesAlls = function (req, res) {
     var skip = 0;
-    if (req.params && req.params.skip) {
-        skip = req.params.skip;
+    var limit = 10;
+    if (req.query && req.query.skip) {
+        skip = parseInt(req.query.skip);
+    }
+      if (req.query && req.query.limit) {
+        limit = parseInt(req.query.limit);
     }
     Article
         .find({})
-        .limit(10)
-        .skip(skip)
+        .limit(limit)
+        .skip(skip*limit)
         .sort({createdAt: -1})
         .exec(function (err, articles) {
             if (err) {

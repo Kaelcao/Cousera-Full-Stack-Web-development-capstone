@@ -15,6 +15,7 @@ routes.post('/login', ctrlAuth.login);
 
 routes.get('/articles', ctrlArticles.articlesAlls);
 routes.post('/articles', auth, ctrlArticles.articlesCreate);
+// routes.post('/articles', ctrlArticles.articlesCreate);
 routes.get('/articles/:articleid', ctrlArticles.articlesReadOne);
 routes.put('/articles/:articleid', auth, ctrlArticles.articlesUpdateOne);
 routes.delete('/articles/:articleid', auth, ctrlArticles.articlesDeleteOne);

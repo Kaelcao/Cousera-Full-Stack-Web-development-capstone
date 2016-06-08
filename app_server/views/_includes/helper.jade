@@ -1,0 +1,10 @@
+mixin formatDate(dateString) 
+	-var date = new Date(dateString);
+	-var monthsName = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+	-var d = date.getDate();
+	-var m=monthsName[date.getMonth()];
+	-var y = date.getFullYear();
+	-var hour = date.getHours();
+	-var minute = date.getMinutes();
+	-var output = d + " "+ m + " " + y+ " "+hour+":"+minute;
+	=output

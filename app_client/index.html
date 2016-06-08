@@ -1,0 +1,25 @@
+
+<!DOCTYPE html>
+<html ng-app="yboxApp">
+<head>
+	<base href="/">
+	<meta name="viewport" content="width=device-width, initial-scala=1.0">
+	<title>Ybox</title>
+	<link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+	<link rel="stylesheet" href="/stylesheets/style.css">
+</head>
+<body ng-controller="bodyCtrl">
+	<navigation></navigation>
+	<div class="container">
+		<page-header content=" 'Ybox' "></page-header>
+
+		<div ng-view></div>
+		<footer-generic></footer-generic>
+	</div>
+	<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.min.js"></script>
+	<script src="/lib/angular-route.min.js"></script>
+	<script src="/lib/angular-sanitize.min.js"></script>
+	<script src="/angular/ybox.min.js"></script><script src="/javascripts/jquery-1.12.4.min.js"></script>
+	<script src="/bootstrap/js/bootstrap.min.js"></script>
+</body>
+</html>

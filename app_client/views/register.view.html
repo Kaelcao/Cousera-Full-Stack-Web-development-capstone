@@ -16,7 +16,8 @@
      <label for="password">Password</label>
      <input type="password" class="form-control" id="password" placeholder="Password" ng-model="vm.credentials.password">
    </div>
-   <button type="submit" class="btn btn-default">Register!</button>
+   <button ng-hide="vm.isSubmitted" type="submit" class="btn btn-default">Register!</button>
+   <div class="alert alert-primary">{{vm.message}}</p>
  </form>
 </div>
 </div>

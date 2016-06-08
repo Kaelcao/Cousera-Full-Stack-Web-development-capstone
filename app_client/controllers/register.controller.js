@@ -24,6 +24,8 @@
       }
     }; 
     vm.doRegister = function() {
+      vm.isSubmitted = true;
+      vm.message = "Please wait....";
       vm.formError = "";
       authentication
       .register(vm.credentials)

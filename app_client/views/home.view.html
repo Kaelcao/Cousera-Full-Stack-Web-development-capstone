@@ -1,5 +1,5 @@
 <div class="row">
-    <div class="col-xs-12 col-sm-8">
+    <div class="col-xs-12 col-sm-9">
         <label for="filter">Search: </label>
         <input id="filter" type="text", name="filter", ng-model="textFilter">
         <h4 class="error">{{vm.message}}</h4>
@@ -24,9 +24,19 @@
           <li ng-repeat="page in vm.pages"><a href="{{vm.link}}?page={{page}}" >{{page}}</a></li>
       </ul>
   </div>
-  <div class="col-xs-12 col-sm-4">
-    <p class="lead">
-     {{vm.rightContent}}
- </p>
+  <div class="col-xs-12 col-sm-3">
+    <p>
+        <img src="/images/2.jpeg" style="width:100%" />
+    </p>
+    <p>
+       Slack - it's teamwork, but simpler, more pleasant, and more productive.
+   </p>
+   <p>
+       <img src="/images/1.png" style="width:100%" />
+   </p>
+
+   <p>
+       Bitbucket is how professional software teams do Git. FREE unlimited private repos.
+   </p>
 </div>
 </div>

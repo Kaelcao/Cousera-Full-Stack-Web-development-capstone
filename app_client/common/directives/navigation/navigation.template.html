@@ -16,18 +16,16 @@
 			</ul>
 			<ul class="nav navbar-nav navbar-right">
 				<li>
-					<a href="/newarticle/">New Article</a>
+					<a ng-show="navvm.isLoggedIn" href="/newarticle/">New Article</a>
 				</li>
-				<li class="dropdown">
-					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">Username
+				<li ng-hide="navvm.isLoggedIn" ><a href="/login?page={{navvm.currentPath }}">Sign in</a></li>
+				<li ng-show="navvm.isLoggedIn" class="dropdown">
+					<a href="#" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle">{{navvm.currentUser.name}}
 						<span class="caret"></span>
 					</a>
 					<ul class="dropdown-menu">
 						<li>
-							<a href="/user/">Profile</a>
-						</li>
-						<li>
-							<a>Logout</a>
+							<a href="" ng-click="navvm.logout()">Logout</a>
 						</li>
 					</ul>
 				</li>

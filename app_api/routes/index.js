@@ -14,6 +14,7 @@ routes.post('/register', ctrlAuth.register);
 routes.post('/login', ctrlAuth.login);
 
 routes.get('/articles', ctrlArticles.articlesAlls);
+routes.get('/articlescount',ctrlArticles.articlesCount);
 routes.post('/articles', auth, ctrlArticles.articlesCreate);
 // routes.post('/articles', ctrlArticles.articlesCreate);
 routes.get('/articles/:articleid', ctrlArticles.articlesReadOne);

@@ -24,7 +24,6 @@
 					content: vm.formData.content,
 					category_id: vm.formData.category_id,
 					tags: vm.formData.tags,
-					user_id: "57407179956a1f9206298cab"
 				})
 				.success(function(data){
 					console.log("success");

@@ -3,24 +3,34 @@
 	function config($routeProvider,$locationProvider){
 		$routeProvider
 		.when("/",{
-			templateUrl:"home/home.view.html",
+			templateUrl:"/views/home.view.html",
 			controller:"homeCtrl",
 			controllerAs: "vm"
 		})
 		.when('/article/:articleid', {
-			templateUrl: '/articleDetail/articleDetail.view.html', 
+			templateUrl: '/views/articleDetail.view.html', 
 			controller: 'articleDetailCtrl',
 			controllerAs: 'vm'
 		})
 		.when('/category/:categoryid/articles',{
-			templateUrl: "home/home.view.html",
+			templateUrl: "/views/home.view.html",
 			controller: "categoryArticles",
 			controllerAs: "vm"
 		})
 		.when("/newarticle",{
-			templateUrl: "/newArticle/newarticle.view.html",
+			templateUrl: "/views/newarticle.view.html",
 			controller: "newArticleCtrl",
 			controllerAs: "vm"
+		})
+		.when('/register', {
+			templateUrl: '/views/register.view.html',
+			controller: 'registerCtrl',
+			controllerAs: 'vm'
+		})
+		.when('/login', {
+			templateUrl: '/views/login.view.html',
+			controller: 'loginCtrl',
+			controllerAs: 'vm'
 		})
 		.otherwise({redirectTo:"/"});
 

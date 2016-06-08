@@ -10,8 +10,28 @@
 		vm.message = "Loading article";
 		var category_id = $routeParams.categoryid;
 		vm.articles = [];
+
+		var limit = 5;
+		var page = 1;
+		vm.link = "/category/"+category_id+"/articles";
+		if ($routeParams.page){
+			page = $routeParams.page;
+		}
 		categories
-		.articles(category_id)
+		.getArticlesNumber(category_id)
+		.success(function(count){
+			vm.pages = [];
+			var totalPages = Math.ceil(count/limit);
+			for (var i=1; i<=totalPages; i++) {
+				vm.pages.push(i);
+			}
+		})
+		.error(function(e){
+			console.log(e);
+		});
+
+		categories
+		.articles(category_id,limit,page)
 		.success(function(data){
 			vm.message = data.length > 0 ? "" : "No articles found";
 			vm.data = {articles:data};

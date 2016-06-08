@@ -17,7 +17,7 @@
 		});
 
 		articles
-		.getAll(4,0)
+		.getAll(4,1)
 		.success(function(data){
 			vm.relatedArticles = data.filter(function(article){
 				return article._id != vm.articleid

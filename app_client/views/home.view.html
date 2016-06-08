@@ -20,10 +20,13 @@
                 </p>
             </div>
         </div>
-    </div>
-    <div class="col-xs-12 col-sm-4">
-        <p class="lead">
-           {{vm.rightContent}}
-        </p>
-    </div>
+        <ul class="pagination">
+          <li ng-repeat="page in vm.pages"><a href="{{vm.link}}?page={{page}}" >{{page}}</a></li>
+      </ul>
+  </div>
+  <div class="col-xs-12 col-sm-4">
+    <p class="lead">
+     {{vm.rightContent}}
+ </p>
+</div>
 </div>

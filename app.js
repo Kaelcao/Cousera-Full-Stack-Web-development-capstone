@@ -24,16 +24,20 @@ app.set('view engine', 'jade');
 
 var appClientFiles = [
 'app_client/app.js',
-'app_client/home/home.controller.js',
+'app_client/controllers/home.controller.js',
 'app_client/common/services/articles.service.js',
 'app_client/common/services/categories.service.js',
+'app_client/common/services/authentication.service.js',
 'app_client/common/directives/footerGeneric/footerGeneric.directive.js',
 'app_client/common/directives/navigation/navigation.directive.js',
+'app_client/common/directives/navigation/navigation.controller.js',
 'app_client/common/directives/pageHeader/pageHeader.directive.js',
-'app_client/articleDetail/articleDetail.controller.js',
-'app_client/category/categoryArticles.controller.js',
-'app_client/newArticle/newarticle.controller.js',
-'app_client/body.controller.js'
+'app_client/controllers/articleDetail.controller.js',
+'app_client/controllers/categoryArticles.controller.js',
+'app_client/controllers/newarticle.controller.js',
+'app_client/controllers/register.controller.js',
+'app_client/controllers/login.controller.js',
+'app_client/controllers/body.controller.js'
 ];
 var uglified = uglifyJs.minify(appClientFiles, { compress : false });
 fs.writeFile('public/angular/ybox.min.js', uglified.code, function (err){

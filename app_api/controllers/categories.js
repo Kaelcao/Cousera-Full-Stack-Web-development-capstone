@@ -12,10 +12,10 @@
 
 module.exports.categoriesReadAllArticles = function(req,res){
     var categoryId = req.params.categoryid;
-    var skip = 0;
+    var page = 0;
     var limit = 10;
-    if (req.query && req.query.skip) {
-        skip = parseInt(req.query.skip);
+    if (req.query && req.query.page) {
+        page = parseInt(req.query.page)-1;
     }
     if (req.query && req.query.limit) {
         limit = parseInt(req.query.limit);
@@ -23,7 +23,7 @@ module.exports.categoriesReadAllArticles = function(req,res){
     Article
     .find({category_id:categoryId})
     .limit(limit)
-    .skip(skip*limit)
+    .skip(page*limit)
     .exec(function (err,articles){
         if (err) {
             sendJSONresponse(res,404,err);

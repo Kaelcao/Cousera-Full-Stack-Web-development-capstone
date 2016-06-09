@@ -60,6 +60,12 @@ app.use(express.static(path.join(__dirname, 'app_client')));
 app.use(passport.initialize());
 
 // app.use('/', routes);
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.use('/api', routesApi);
 app.use('/users', users);
 

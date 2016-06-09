@@ -13,6 +13,7 @@
 		if ($routeParams.page){
 			page = $routeParams.page;
 		}
+		vm.currentPage = page;
 		var limit = 5;
 		vm.link = "/";
 		articles

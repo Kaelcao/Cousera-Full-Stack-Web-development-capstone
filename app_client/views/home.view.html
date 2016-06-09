@@ -21,7 +21,7 @@
             </div>
         </div>
         <ul class="pagination">
-          <li ng-repeat="page in vm.pages"><a href="{{vm.link}}?page={{page}}" >{{page}}</a></li>
+          <li ng-repeat="page in vm.pages"  ng-class="(vm.currentPage == page)?'active':''"><a href="{{vm.link}}?page={{page}}" >{{page}}</a></li>
       </ul>
   </div>
   <div class="col-xs-12 col-sm-3">

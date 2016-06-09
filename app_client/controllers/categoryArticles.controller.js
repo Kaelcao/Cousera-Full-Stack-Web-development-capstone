@@ -17,6 +17,8 @@
 		if ($routeParams.page){
 			page = $routeParams.page;
 		}
+		vm.currentPage = page;
+		
 		categories
 		.getArticlesNumber(category_id)
 		.success(function(count){

@@ -1,46 +1,47 @@
  <div class="row">
-    <div class=" col-xs-12 col-md-6">
-      <div role="alert" ng-show="vm.formError" class="alert alert-danger">{{vm.formError }}</div>
-        <form ng-submit="vm.onSubmit()" class="form-horizontal" method="post">
-            <div class="form-group">
-                <label for="title" class="col-xs-12 col-sm-2">Title</label>
-                <div class="col-xs-12 col-sm-10">
-                    <input ng-model="vm.formData.title" class="form-control" id="title" type="text" placeholder="Title" name='title'/>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label for="content" class="col-xs-12 col-sm-2">Content</label>
-                <div class="col-xs-12 col-sm-10">
-                  <textarea ng-model="vm.formData.content"  class="form-control" id="content" name='content' rows='5'></textarea>
-              </div>
-          </div>
-
-          <div class="form-group">
-            <label for="category_id" class="col-xs-12 col-sm-2">Category</label>
-            <div class="col-xs-12 col-sm-10">
-              <select ng-model="vm.formData.category_id"  id="category_id" class="form-control input-sm"  name="category_id">
-                  <option ng-repeat="category in vm.categories" value="{{category._id}}">{{category.name}}</option> 
-              </select>
-          </div>
-      </div>
-
+  <div class=" col-xs-12 col-md-6">
+    <div role="alert" ng-show="vm.formError" class="alert alert-danger">{{vm.formError }}</div>
+    <form ng-submit="vm.onSubmit()" class="form-horizontal" method="post">
       <div class="form-group">
-          <label class="col-xs-12 col-sm-2" for ="tags">Tag</label>
-          <div class=".col-xs-12 col-sm-10">
-              <input ng-model="vm.formData.tags"  class="form-control" id="tags" type="text" placeholder="Tags" name='tags'/>
-          </div>
-      </div>
-
-      <div class="form-group">
-        <div class="col-xs-12 col-sm-10 col-sm-push-2">
-            <input class="btn btn-default" type='submit'/>
-            <input class="btn btn-danger" type='reset' style='margin-left:5px'/>
+        <label for="title" class="col-xs-12 col-sm-2">Title</label>
+        <div class="col-xs-12 col-sm-10">
+          <input ng-model="vm.formData.title" class="form-control" id="title" type="text" placeholder="Title" name='title'/>
         </div>
+      </div>
+
+      <div class="form-group">
+        <label for="content" class="col-xs-12 col-sm-2">Content</label>
+        <div class="col-xs-12 col-sm-10">
+          <textarea ng-model="vm.formData.content"  class="form-control" id="content" name='content' rows='5'></textarea>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="category_id" class="col-xs-12 col-sm-2">Category</label>
+        <div class="col-xs-12 col-sm-10">
+          <select ng-model="vm.formData.category_id"  id="category_id" class="form-control input-sm"  name="category_id">
+            <option ng-repeat="category in vm.categories" value="{{category._id}}">{{category.name}}</option> 
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="col-xs-12 col-sm-2" for ="tags">Tag</label>
+        <div class=".col-xs-12 col-sm-10">
+          <input ng-model="vm.formData.tags"  class="form-control" id="tags" type="text" placeholder="Tags" name='tags'/>
+        </div>
+      </div>
+
+      <div ng-hide="vm.isSubmitted" class="form-group">
+        <div  class="col-xs-12 col-sm-10 col-sm-push-2">
+          <input class="btn btn-default" type='submit'/>
+          <input class="btn btn-danger" type='reset' style='margin-left:5px'/>
+        </div>
+        <div ng-show="vm.isSubmitted" class="alert alert-info">{{vm.message}}</p>
+        </div>
+      </form>
     </div>
-</form>
-</div>
-</div>
+  </div>
 
 
 

@@ -15,6 +15,8 @@
 				console.log(e);
 			});
 			vm.onSubmit = function () {
+				vm.isSubmitted = true;
+				vm.message = "Please wait....";
 				vm.formError = "";
 				if(!vm.formData || !vm.formData.title || !vm.formData.content || !vm.formData.category_id || !vm.formData.tags){
 					vm.formError = "All fields required, please try again";

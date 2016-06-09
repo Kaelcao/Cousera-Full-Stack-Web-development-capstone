@@ -2,9 +2,10 @@
 	angular
 	.module('yboxApp')
 	.service('authentication', authentication);
-
+	
 	authentication.$inject = ['$window',"$http"];
 	function authentication ($window,$http) {
+
 		var s=this;
 		s.saveToken = function (token) {
 			$window.localStorage['ybox-token'] = token;

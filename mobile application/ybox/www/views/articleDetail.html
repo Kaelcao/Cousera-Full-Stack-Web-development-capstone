@@ -1,0 +1,26 @@
+ <div class="modal">
+
+  <div class="bar bar-header bar-calm">
+    <button class="button" ng-click="closeArticle()">back</button>
+  </div>
+
+  <br></br>
+  <div class="card" ng-show="loadingMessage">
+    <div class="item item-text-wrap" style="color:black">
+      {{loadingMessage}}
+    </div>
+  </div>
+
+  <div ng-hide="loadingMessage" class="padding">
+    <h1 class="title">
+      {{article.title}}
+    </h1>
+    <p style="color:#888">
+      {{article.createdAt | date: "medium"}}
+    </p>
+    <p>
+      {{article.content}}
+    </p>
+    <div/>
+
+  </div>

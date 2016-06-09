@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html ng-app="ybox"> 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="initial-scale=1, maximum-scale=1, user-scalable=no, width=device-width">
@@ -22,21 +22,42 @@
   <script src="js/app.js"></script>
   <script src="js/controllers.js"></script>
   <script src="js/services.js"></script>
+  <script src="js/constants.js"></script>
+
+
 </head>
-<body ng-app="ybox">
+<body   ng-controller="ArticlesListCtrl">
 
   <ion-pane>
     <ion-header-bar align-title="left" class="bar-positive">
 
-    <h1 class="title">Ybox</h1>
+      <h1 class="title">Ybox</h1>
+      <div class="buttons">
+        <button ng-hide="isLoggedIn" class="button" ng-click="openModal()">Sign In</button>
+        <button ng-show="isLoggedIn" class="button" ng-click="logOut()">Log Out</button>
+      </div>
+
 
     </ion-header-bar>
     <ion-content>
-      <ion-list ng-controller="ArticlesListCtrl">
-      <div>{{message}}</div>
-        <ion-item ng-repeat="article in articles">{{article.title}}</ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-pane>
+      <div>
+        <div>{{message}}</div>
+        <ion-item ng-repeat="article in articles" ng-click="showArticle(article._id)">
+          <h2>{{article.title}}</h2>
+          <p class="time">
+            <span>{{article.createdAt | date: "medium"}}</span>
+          </p>
+          <p class="description">
+            {{article.content.substring(0,300)}}...
+          </p>
+        </ion-item>
+        <ion-infinite-scroll
+        ng-if="canLoadMore"
+        on-infinite="loadMore()"
+        distance="1%">
+      </ion-infinite-scroll>
+    </div>
+  </ion-content>
+</ion-pane>
 </body>
 </html>

@@ -1,0 +1,36 @@
+ <div class="modal">
+
+  <div class="bar bar-header bar-calm">
+    <button class="button" ng-click="closeModal()">back</button>
+    <h1 class="title">Sign in</h1>
+  </div>
+  <br></br>
+  <form ng-submit="doLogin(data)">
+    <div class="list">
+      <label class="item item-input">
+        <input type="text" placeholder="Email" ng-model="data.email">
+      </label>
+      <label class="item item-input">
+        <input type="text" placeholder="Password" ng-model="data.password">
+      </label>
+      <div class="padding" ng-hide="isSubmitted">
+        <button class="button button-block button-positive">
+          Sign in
+        </button>
+      </div>
+      
+      <div class="card" ng-show="formError" >
+        <div class="item item-text-wrap" style="color:red">
+          {{formError}}
+        </div>
+      </div>
+      <div class="card" ng-show="isSubmitted">
+        <div class="item item-text-wrap" style="color:green">
+          {{message}}
+        </div>
+      </div>
+    </div>
+    
+  </form>
+
+</div>

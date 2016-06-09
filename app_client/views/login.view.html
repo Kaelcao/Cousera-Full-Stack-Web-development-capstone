@@ -10,6 +10,7 @@
 			<label for="password">Password</label>
 			<input type="password" class="form-control" id="password" placeholder="Password" ng-model="vm.credentials.password">
 		</div>
-		<button type="submit" class="btn btn-default">Sign in!</button> 
-	</form>
-</div>
+		<button ng-hide="vm.isSubmitted" type="submit" class="btn btn-default">Sign In!</button>
+		<div ng-show="vm.isSubmitted" class="alert alert-info">{{vm.message}}</p>
+		</form>
+	</div>

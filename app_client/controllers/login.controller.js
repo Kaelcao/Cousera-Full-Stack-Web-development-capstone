@@ -20,6 +20,8 @@
 			
 		}
 		vm.doLogin = function() { 
+			vm.isSubmitted = true;
+			vm.message = "Please wait....";
 			vm.formError = ""; 
 			authentication
 			.login(vm.credentials) 
@@ -29,7 +31,7 @@
 			.then(function(){
 				$rootScope.isLoggedIn = authentication.isLoggedIn();
 				$location.search('page', null);
-				 $rootScope.currentUser = authentication.currentUser();
+				$rootScope.currentUser = authentication.currentUser();
 				$location.path(vm.returnPage);
 
 			});
